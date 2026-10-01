@@ -1,0 +1,7 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Evidence-backed root cause output",
+  "type": "object",
+  "required": ["root_causes"],
+  "properties": { "root_causes": { "type": "array", "minItems": 1, "items": { "type": "object", "required": ["cause", "confidence", "evidence_ids", "reasoning"], "properties": { "cause": { "type": "string" }, "confidence": { "type": "number", "minimum": 0, "maximum": 1 }, "evidence_ids": { "type": "array", "minItems": 1, "items": { "type": "string", "pattern": "^evt_" } }, "reasoning": { "type": "string" } } } } }
+}

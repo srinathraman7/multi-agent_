@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DiagnosticProposal",
+  "type": "object",
+  "required": ["id", "title", "check", "why", "expected_result", "risk", "status"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^prop_[A-Za-z0-9_-]+$"},
+    "title": {"type": "string", "minLength": 1},
+    "check": {"type": "string", "minLength": 1},
+    "why": {"type": "string", "minLength": 1},
+    "expected_result": {"type": "string", "minLength": 1},
+    "risk": {"enum": ["low", "medium", "high"]},
+    "status": {"enum": ["pending", "approved", "rejected", "blocked"]},
+    "guardrail_decision": {"enum": ["allowed", "blocked", "needs_review"]},
+    "guardrail_reason": {"type": ["string", "null"]},
+    "evidence_ids": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

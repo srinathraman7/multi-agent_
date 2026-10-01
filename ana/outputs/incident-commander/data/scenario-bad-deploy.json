@@ -1,0 +1,9 @@
+{
+  "scenario": "bad-deploy",
+  "answer_key": "Checkout v2.3 reduced the database connection pool setting from 50 to 10.",
+  "events": [
+    { "id": "evt_0007", "project_id": "shop-demo", "source": "deploy", "timestamp": "2026-09-30T10:32:05Z", "service": "checkout", "severity": "info", "message": "v2.3 deployed; MAX_DB_CONNECTIONS changed 50 -> 10", "raw": "release checkout@v2.3 MAX_DB_CONNECTIONS=10" },
+    { "id": "evt_0390", "project_id": "shop-demo", "source": "log", "timestamp": "2026-09-30T10:42:31Z", "service": "checkout", "severity": "critical", "message": "5xx rate exceeded alert threshold", "raw": "checkout 5xx=38.4% threshold=5%" },
+    { "id": "evt_0412", "project_id": "shop-demo", "source": "log", "timestamp": "2026-09-30T10:44:21Z", "service": "checkout", "severity": "error", "message": "DB connection pool exhausted", "raw": "sqlalchemy.exc.TimeoutError: QueuePool limit reached" }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Incident event",
+  "type": "object",
+  "required": ["id", "project_id", "source", "timestamp", "service", "severity", "message", "raw"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^evt_" },
+    "project_id": { "type": "string" },
+    "source": { "enum": ["log", "ticket", "deploy", "chat"] },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "service": { "type": "string" },
+    "severity": { "type": "string", "enum": ["debug", "info", "warning", "error", "critical"] },
+    "message": { "type": "string" },
+    "raw": { "type": "string" }
+  },
+  "additionalProperties": false
+}

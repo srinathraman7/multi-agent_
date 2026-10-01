@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="A safe, advisory-only AI incident commander demo." />
+    <title>Sentinel · Incident Commander</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="shell">
+      <aside class="sidebar" aria-label="Main navigation">
+        <a class="brand" href="#war-room" aria-label="Sentinel home">
+          <span class="brand-mark">S</span><span>sentinel</span>
+        </a>
+        <div class="workspace-switcher"><span class="mini-dot"></span><span>shop-demo</span><span class="chevron">⌄</span></div>
+        <nav class="nav-list">
+          <button class="nav-item" data-view="incidents"><span>▦</span> Incidents <span class="nav-count">3</span></button>
+          <button class="nav-item active" data-view="war-room"><span>◉</span> War room</button>
+          <button class="nav-item" data-view="timeline"><span>≡</span> Timeline</button>
+          <button class="nav-item" data-view="audit"><span>⌘</span> Audit & safety</button>
+        </nav>
+        <div class="sidebar-bottom">
+          <div class="safety-lock"><span>✓</span><div><strong>Advisory-only</strong><small>No production access</small></div></div>
+          <button class="user-card" id="roleButton"><span class="avatar">AL</span><span><strong>Aisha Lee</strong><small id="roleLabel">Incident Lead</small></span><span class="chevron">⌄</span></button>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <div class="breadcrumbs"><span>Incidents</span><span>/</span><strong>Checkout failures</strong></div>
+          <div class="top-actions"><span class="live-indicator"><i></i> Live updates</span><button class="icon-button" aria-label="Notifications">♧</button><button class="help-button">?</button></div>
+        </header>
+
+        <section class="view" id="war-room-view">
+          <div class="incident-heading">
+            <div><div class="eyebrow">ACTIVE INCIDENT <span class="incident-id">INC-2048</span></div><h1>Checkout failures after v2.3 deploy</h1><p>Started 10:42 UTC · <span class="service-name">checkout</span> · <span class="critical">Critical</span></p></div>
+            <div class="heading-actions"><button class="secondary-button" id="shareButton">↗ Share</button><button class="primary-button" id="resolveButton">Mark resolved</button></div>
+          </div>
+
+          <div class="status-strip"><div><span class="pulse"></span><strong>Investigating</strong><span class="muted">Commander last ran just now</span></div><div class="agent-steps"><span class="agent-step done">1. Noise filtered</span><span class="agent-step done">2. Correlated</span><span class="agent-step done">3. Cause ranked</span><span class="agent-step current">4. Diagnostics ready</span></div></div>
+
+          <div class="war-grid">
+            <section class="panel alerts-panel">
+              <div class="panel-header"><div><p class="section-kicker">SIGNALS</p><h2>Cleaned alerts</h2></div><button class="text-button" data-view="incidents">View all <span>→</span></button></div>
+              <div class="noise-card"><div class="noise-icon">✦</div><div><strong>184 noisy alerts removed</strong><p>Duplicates and health checks were grouped away.</p></div><span class="noise-percent">89% less noise</span></div>
+              <div class="signal-list" id="signalList"></div>
+              <button class="outline-button full-button" id="showRawButton">View 184 filtered events</button>
+            </section>
+
+            <section class="panel root-panel">
+              <div class="panel-header"><div><p class="section-kicker">ANALYSIS</p><h2>Probable root causes</h2></div><span class="confidence-legend">Evidence-backed</span></div>
+              <div id="causesList"></div>
+              <div class="analysis-note"><span>✦</span><p>Generated from 12 connected events. The commander makes recommendations only; validate before acting.</p></div>
+            </section>
+
+            <section class="panel diagnostics-panel">
+              <div class="panel-header"><div><p class="section-kicker">HUMAN CHECKS</p><h2>Safe diagnostics</h2></div><span class="safe-pill">✓ Read-only</span></div>
+              <p class="panel-intro">Suggestions are screened by fixed safety rules before you see them.</p>
+              <div id="proposalsList"></div>
+              <button class="unsafe-demo" id="unsafeButton"><span>⊘</span> Try unsafe suggestion</button>
+            </section>
+          </div>
+
+          <section class="timeline-preview panel"><div class="panel-header"><div><p class="section-kicker">AUDITABLE RECORD</p><h2>What has happened</h2></div><button class="text-button" data-view="timeline">Open full timeline <span>→</span></button></div><div class="preview-entries" id="previewTimeline"></div></section>
+        </section>
+
+        <section class="view hidden" id="incidents-view">
+          <div class="page-heading"><div><p class="eyebrow">INCIDENTS</p><h1>Keep every response in view.</h1><p>Prioritised, explainable incident workspaces for the on-call team.</p></div><button class="primary-button" id="newIncident">+ New incident</button></div>
+          <div class="incident-summary"><div><small>Open incidents</small><strong>3</strong><span class="down">↓ 1 from yesterday</span></div><div><small>Median time to diagnose</small><strong>11m</strong><span class="up">↑ 4m faster</span></div><div><small>Safety checks passed</small><strong>100%</strong><span>this week</span></div></div>
+          <div class="incident-table panel"><div class="table-head"><span>Incident</span><span>Severity</span><span>State</span><span>Started</span><span></span></div><div id="incidentRows"></div></div>
+        </section>
+
+        <section class="view hidden" id="timeline-view">
+          <div class="page-heading"><div><p class="eyebrow">INCIDENT TIMELINE</p><h1>A complete account, not a black box.</h1><p>Every event, deduction and human decision is retained in order.</p></div><button class="secondary-button" id="exportButton">⇩ Export record</button></div>
+          <div class="filter-row"><button class="filter active" data-filter="all">All activity</button><button class="filter" data-filter="ai">AI deductions</button><button class="filter" data-filter="human">Human decisions</button><button class="filter" data-filter="system">System events</button></div>
+          <div class="full-timeline panel" id="fullTimeline"></div>
+        </section>
+
+        <section class="view hidden" id="audit-view">
+          <div class="page-heading"><div><p class="eyebrow">AUDIT & SAFETY</p><h1>Safety is enforced in code.</h1><p>The system has no path to run commands in your infrastructure.</p></div><span class="safe-pill large">✓ Guardrails active</span></div>
+          <div class="metric-grid"><div class="metric-card"><span>Root-cause accuracy</span><strong>3/3</strong><small>demo scenarios ranked correctly</small></div><div class="metric-card"><span>Noise reduction</span><strong>89%</strong><small>in this incident</small></div><div class="metric-card"><span>Unsafe output blocked</span><strong id="blockedMetric">12</strong><small>of 12 attempts</small></div><div class="metric-card"><span>Timeline complete</span><strong>100%</strong><small>all actions recorded</small></div></div>
+          <div class="audit-grid"><section class="panel policy-panel"><div class="panel-header"><div><p class="section-kicker">POLICY</p><h2>Diagnostic allowlist</h2></div></div><p>Only information-gathering checks are eligible for display. Everything else is blocked or sent for human review.</p><div class="policy-columns"><div><strong class="allowed-title">Allowed</strong><ul><li>View logs</li><li>Check metrics</li><li>Service status</li><li>List processes</li></ul></div><div><strong class="blocked-title">Blocked</strong><ul><li>Restart / kill</li><li>Delete / drop</li><li>Deploy / rollback</li><li>Write / scale</li></ul></div></div></section><section class="panel blocked-panel"><div class="panel-header"><div><p class="section-kicker">ENFORCEMENT LOG</p><h2>Blocked suggestions</h2></div><span class="blocked-pill">12 blocked</span></div><div id="blockedList"></div></section></div>
+        </section>
+      </main>
+    </div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <div class="modal-backdrop hidden" id="modal"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><button class="modal-close" id="modalClose" aria-label="Close">×</button><div id="modalContent"></div></div></div>
+    <script src="app.js"></script>
+  </body>
+</html>

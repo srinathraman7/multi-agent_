@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TimelineEntry",
+  "type": "object",
+  "required": ["id", "timestamp", "actor", "action", "evidence_ids"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^tl_[A-Za-z0-9_-]+$"},
+    "timestamp": {"type": "string", "format": "date-time"},
+    "actor": {"enum": ["system", "ai", "human"]},
+    "action": {"type": "string", "minLength": 1},
+    "evidence_ids": {"type": "array", "items": {"type": "string"}},
+    "metadata": {"type": "object"}
+  },
+  "additionalProperties": false
+}
